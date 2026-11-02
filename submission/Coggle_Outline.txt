@@ -1,0 +1,71 @@
+Protein Interface Prediction with GCN
+	1. Paper and why
+		Fout et al., NeurIPS 2017 - Protein Interface Prediction using Graph Convolutional Networks
+		Matches topic row - GCN learns ligand and receptor residue representations, merges for pairwise classification
+		Motivation - drug discovery, where proteins bind
+		Code and data released (pipgcn, Zenodo)
+	2. Problem
+		Input - two unbound proteins
+		Label - bound complex, atoms within 6 A = contact
+		Output - score for every ligand-receptor residue pair (n x m contact map)
+		Challenge - about 0.1% positives
+	3. How the protein is divided
+		Chain of amino acids = residues
+		Residue = node (features)
+		Edge = 20 nearest residues in space
+		Unbound state = model input
+		Bound state = labels only
+		No cross-protein distance given to model
+	4. Model
+		Shared-weight encoder for ligand and receptor
+		Paper layer - h' = ReLU(Wc h + Wn mean(neighbours) + b)
+		Our GNN - edge-weighted messages, 3 residual layers, width 128, dropout 0.25
+		Pair head - [u+v, |u-v|, u*v] (order symmetric)
+		Baseline - MLP, same everything, no neighbour messages
+	5. Data
+		Docking Benchmark 5 / DB5-Plus
+		Train 140
+		Checkpoint selection 18
+		Threshold calibration 17
+		Test 55 (5,224,053 pairs, 4,891 contacts)
+		Features - 218 node, 17 edge
+		Scaler fitted on training only
+	6. Training
+		Kaggle 2x T4, 385.4 s
+		AdamW lr 3e-4, wd 1e-3, clip 5
+		10 negatives per positive, resampled each epoch
+		Select epoch by validation mean AP (epochs 7-10)
+		Early stopping patience 20
+		3 GNN seeds + 1 MLP
+		Ensemble of 3 seeds
+	7. Results
+		Paper-style benchmark
+			10 seeds, 55 test complexes, median AUC
+			No-conv 0.846 (paper 0.810)
+			Node average 0.888 (paper 0.882)
+			Node+edge 0.893 (paper 0.898)
+			Matches published range, same ordering
+		Kaggle test
+			MLP - F1 2.43%, AUC 0.8354
+			GNN seeds - F1 3.15 to 3.29%, AUC 0.863 to 0.867
+			Ensemble - P 2.16%, R 11.94%, F1 3.66%, AUC 0.8746, AP 0.01035
+			TP 584, FP 26,409, FN 4,307
+		Why F1 is low - huge imbalance, AUC is not precision
+	8. Our additions
+		Edge-aware residual GNN
+		3-seed ensemble
+		Threshold calibrated on validation only
+		Full candidate matrix evaluation
+		Independent audit - 4,210 checks
+		Bootstrap CI for F1 2.78 to 4.80%
+	9. Check vs problem statement
+		GCN - met
+		Ligand/receptor representations merged for pairs - met
+		Residue-interaction edges - met
+		Dataset PMC Protein Interfaces 2024 - differs, we used DB5 (confirm with instructor)
+	10. Limits and next steps
+		Not reliable contact predictor
+		Top-10 precision only 4-6%
+		Test structures seen in earlier experiments
+		MLP has fewer parameters
+		Next - parameter-matched baseline, identity-aware splits, geometric encoders, calibrated probabilities

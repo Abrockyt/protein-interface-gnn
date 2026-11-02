@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Protein Interface Prediction with GCNs</title>
+<style>
+@page{size:1280px 720px;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;color:#1b2430;background:#fff}
+.s{width:1280px;height:720px;padding:46px 64px 40px;position:relative;page-break-after:always;overflow:hidden;background:#fff}
+.s:last-child{page-break-after:auto}
+.s::before{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;background:#0f766e}
+.tag{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#0f766e;font-weight:700;margin-bottom:6px}
+h1{font-size:56px;line-height:1.08;color:#0b2540}
+h2{font-size:36px;color:#0b2540;margin-bottom:18px;line-height:1.15}
+h3{font-size:21px;color:#0f766e;margin:0 0 6px}
+p,li{font-size:20px;line-height:1.42}
+ul{padding-left:24px}li{margin:5px 0}
+.cols{display:flex;gap:36px}.cols>div{flex:1}
+.card{background:#f1f6f9;border-radius:12px;padding:16px 20px;border-left:6px solid #0f766e}
+.card.b{border-left-color:#1d4ed8}.card.o{border-left-color:#c2410c;background:#fff4ec}
+table{border-collapse:collapse;width:100%;font-size:18px}
+th{background:#0b2540;color:#fff;text-align:left;padding:8px 12px}
+td{padding:8px 12px;border-bottom:1px solid #d5dee6}
+tr.hl td{background:#e3f4ee;font-weight:700}
+.big{font-size:60px;font-weight:800;color:#0f766e;line-height:1}
+.sm{font-size:15px;color:#51606f}
+img{max-width:100%}
+.foot{position:absolute;bottom:14px;left:64px;right:64px;font-size:12px;color:#8a97a4;display:flex;justify-content:space-between}
+code{background:#e8eef3;padding:1px 6px;border-radius:4px;font-size:.92em}
+.ok{color:#0f766e;font-weight:700}.no{color:#c2410c;font-weight:700}
+</style></head><body>
+
+<section class="s" style="background:#0b2540;color:#fff">
+<div style="position:absolute;left:64px;top:170px;width:1000px">
+<div class="tag" style="color:#9fe8d8">Graph Neural Networks · Course Project</div>
+<h1 style="color:#fff">Protein Interface Prediction<br>with Graph Convolutional Networks</h1>
+<p style="margin-top:26px;font-size:24px;color:#d6efe9">Which residues of two proteins will touch when they bind?<br>A PyTorch implementation of the graph-convolution method, trained and evaluated on the Docking Benchmark, with an edge-aware extension and a verified evaluation.</p>
+<p style="margin-top:34px;font-size:18px;color:#9fe8d8">Base paper: Fout, Byrd, Shariat &amp; Ben-Hur, NeurIPS 2017 · Data: Docking Benchmark 5 / DB5-Plus</p>
+</div></section>
+
+<section class="s"><div class="tag">1 · Paper &amp; motivation</div><h2>Which paper, and why this one</h2>
+<div class="cols"><div>
+<div class="card"><h3>Paper chosen</h3><p><b>Protein Interface Prediction using Graph Convolutional Networks</b><br>Fout et al., NeurIPS 2017</p></div>
+<h3 style="margin-top:20px">Why it fits the assigned topic</h3>
+<ul><li>Topic row: <b>Protein Interface Prediction → GCN</b>.</li>
+<li>The paper learns <b>ligand</b> and <b>receptor</b> residue representations separately, then <b>merges them</b> for pairwise classification: exactly the task description.</li>
+<li>Releases code and benchmark data, so results can be checked.</li></ul></div>
+<div><h3>Why the problem matters</h3>
+<ul><li>Interfaces decide which proteins bind: key to <b>drug discovery</b> (where a drug must bind or block).</li>
+<li>Experimental structures of complexes are slow and expensive; a model that predicts contact residues narrows the search.</li>
+<li>Graphs are the natural fit: a protein is a set of residues linked by spatial neighbourhood, not a grid or a sequence.</li></ul>
+<div class="card b" style="margin-top:14px"><b>Goal:</b> given two <i>separate</i> proteins, score every (ligand residue, receptor residue) pair for contact.</div></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>2</span></div></section>
+
+<section class="s"><div class="tag">2 · Problem definition</div><h2>What exactly is predicted</h2>
+<svg viewBox="0 0 1150 280" width="1150" height="280" font-family="Segoe UI,Arial">
+<rect x="10" y="40" width="300" height="200" rx="16" fill="#e3f4ee" stroke="#0f766e" stroke-width="3"/><text x="160" y="95" text-anchor="middle" font-size="26" font-weight="700" fill="#0b2540">Ligand protein</text><text x="160" y="135" text-anchor="middle" font-size="20" fill="#0b2540">n residues</text><text x="160" y="175" text-anchor="middle" font-size="18" fill="#51606f">unbound structure</text>
+<rect x="420" y="40" width="300" height="200" rx="16" fill="#e4ecfb" stroke="#1d4ed8" stroke-width="3"/><text x="570" y="95" text-anchor="middle" font-size="26" font-weight="700" fill="#0b2540">Receptor protein</text><text x="570" y="135" text-anchor="middle" font-size="20" fill="#0b2540">m residues</text><text x="570" y="175" text-anchor="middle" font-size="18" fill="#51606f">unbound structure</text>
+<path d="M315 140 H415" stroke="#c2410c" stroke-width="4" stroke-dasharray="8 6"/><text x="365" y="125" text-anchor="middle" font-size="22" fill="#c2410c" font-weight="700">?</text>
+<path d="M725 140 H800" stroke="#0b2540" stroke-width="4"/><polygon points="800,128 828,140 800,152" fill="#0b2540"/>
+<rect x="835" y="40" width="300" height="200" rx="16" fill="#fff4ec" stroke="#c2410c" stroke-width="3"/><text x="985" y="95" text-anchor="middle" font-size="24" font-weight="700" fill="#0b2540">n × m contact map</text><text x="985" y="135" text-anchor="middle" font-size="19" fill="#0b2540">1 = residues touch</text><text x="985" y="170" text-anchor="middle" font-size="19" fill="#0b2540">0 = no contact</text><text x="985" y="205" text-anchor="middle" font-size="16" fill="#51606f">~0.1% are 1</text></svg>
+<ul><li><b>Input:</b> two proteins in their <b>unbound</b> (separate) state: the realistic case, since the bound shape is unknown beforehand.</li>
+<li><b>Label:</b> from the <b>bound</b> complex: a residue pair is a contact if any non-hydrogen atoms are within <b>6 Å</b>.</li>
+<li><b>Output:</b> a score for every cross-protein residue pair. It is a <b>residue-pair classification</b> task, not folding or docking.</li>
+<li><b>Challenge:</b> extreme imbalance: ~1 contact per 1,000 pairs.</li></ul>
+<div class="foot"><span>Protein Interface GCN</span><span>3</span></div></section>
+
+<section class="s"><div class="tag">3 · How the protein is divided</div><h2>From a 3-D protein to a residue graph</h2>
+<svg viewBox="0 0 1150 330" width="1150" height="330" font-family="Segoe UI,Arial">
+<text x="100" y="22" text-anchor="middle" font-size="18" font-weight="700" fill="#0b2540">① Protein chain</text>
+<path d="M30 150 C 60 60,120 60,110 140 S 70 250,140 240 S 170 130,150 110" fill="none" stroke="#9aa9b7" stroke-width="10" stroke-linecap="round"/>
+<text x="100" y="300" text-anchor="middle" font-size="15" fill="#51606f">backbone of amino acids</text>
+<path d="M205 150 H255" stroke="#0b2540" stroke-width="3"/><polygon points="255,141 273,150 255,159" fill="#0b2540"/>
+<text x="395" y="22" text-anchor="middle" font-size="18" font-weight="700" fill="#0b2540">② Residues = nodes</text>
+<g fill="#0f766e"><circle cx="310" cy="150" r="12"/><circle cx="350" cy="95" r="12"/><circle cx="400" cy="170" r="12"/><circle cx="445" cy="105" r="12"/><circle cx="470" cy="190" r="12"/><circle cx="360" cy="235" r="12"/><circle cx="430" cy="255" r="12"/></g>
+<text x="395" y="300" text-anchor="middle" font-size="15" fill="#51606f">each node: features of that residue</text>
+<path d="M520 150 H570" stroke="#0b2540" stroke-width="3"/><polygon points="570,141 588,150 570,159" fill="#0b2540"/>
+<text x="715" y="22" text-anchor="middle" font-size="18" font-weight="700" fill="#0b2540">③ 20 nearest residues = edges</text>
+<g stroke="#1d4ed8" stroke-width="2.5"><line x1="630" y1="150" x2="670" y2="95"/><line x1="630" y1="150" x2="720" y2="170"/><line x1="670" y1="95" x2="765" y2="105"/><line x1="720" y1="170" x2="790" y2="190"/><line x1="765" y1="105" x2="720" y2="170"/><line x1="680" y1="235" x2="720" y2="170"/><line x1="680" y1="235" x2="750" y2="255"/><line x1="750" y1="255" x2="790" y2="190"/></g>
+<g fill="#0f766e"><circle cx="630" cy="150" r="12"/><circle cx="670" cy="95" r="12"/><circle cx="720" cy="170" r="12"/><circle cx="765" cy="105" r="12"/><circle cx="790" cy="190" r="12"/><circle cx="680" cy="235" r="12"/><circle cx="750" cy="255" r="12"/></g>
+<text x="715" y="300" text-anchor="middle" font-size="15" fill="#51606f">edge = spatially close (not just sequence-adjacent)</text>
+<text x="1000" y="22" text-anchor="middle" font-size="18" font-weight="700" fill="#0b2540">④ Label from bound state</text>
+<rect x="880" y="60" width="110" height="200" rx="14" fill="#e3f4ee" stroke="#0f766e" stroke-width="3"/><rect x="1010" y="60" width="110" height="200" rx="14" fill="#e4ecfb" stroke="#1d4ed8" stroke-width="3"/>
+<g fill="#c2410c"><circle cx="975" cy="130" r="9"/><circle cx="1025" cy="130" r="9"/><circle cx="975" cy="190" r="9"/><circle cx="1025" cy="190" r="9"/></g>
+<line x1="975" y1="130" x2="1025" y2="130" stroke="#c2410c" stroke-width="3"/><line x1="975" y1="190" x2="1025" y2="190" stroke="#c2410c" stroke-width="3"/>
+<text x="1000" y="300" text-anchor="middle" font-size="15" fill="#51606f">atoms within 6 Å ⇒ contact = 1</text></svg>
+<div class="cols"><div class="card"><h3>Unbound state (model input)</h3><p>Proteins are separate. Residue features and neighbourhoods are computed here: no knowledge of the partner pose.</p></div>
+<div class="card o"><h3>Bound state (labels only)</h3><p>Only the 6 Å contact labels come from the docked complex. Cross-protein distances are <b>never</b> given as input.</p></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>4</span></div></section>
+
+<section class="s"><div class="tag">4 · Model</div><h2>Architecture: two shared encoders, one pair classifier</h2>
+<svg viewBox="0 0 1150 310" width="1150" height="310" font-family="Segoe UI,Arial">
+<rect x="0" y="30" width="200" height="90" rx="12" fill="#e3f4ee" stroke="#0f766e" stroke-width="3"/><text x="100" y="70" text-anchor="middle" font-size="19" font-weight="700">Ligand graph</text><text x="100" y="98" text-anchor="middle" font-size="15" fill="#51606f">node + edge features</text>
+<rect x="0" y="190" width="200" height="90" rx="12" fill="#e4ecfb" stroke="#1d4ed8" stroke-width="3"/><text x="100" y="230" text-anchor="middle" font-size="19" font-weight="700">Receptor graph</text><text x="100" y="258" text-anchor="middle" font-size="15" fill="#51606f">node + edge features</text>
+<path d="M205 75 H275 M205 235 H275" stroke="#0b2540" stroke-width="3"/>
+<rect x="280" y="30" width="270" height="250" rx="14" fill="#f1f6f9" stroke="#0b2540" stroke-width="3"/><text x="415" y="75" text-anchor="middle" font-size="21" font-weight="700">Shared GNN encoder</text><text x="415" y="110" text-anchor="middle" font-size="16">same weights for both</text><text x="415" y="140" text-anchor="middle" font-size="16">proteins (weight sharing)</text><text x="415" y="185" text-anchor="middle" font-size="16" fill="#0f766e">message passing over</text><text x="415" y="208" text-anchor="middle" font-size="16" fill="#0f766e">20 nearest residues</text><text x="415" y="250" text-anchor="middle" font-size="15" fill="#51606f">→ residue embeddings</text>
+<path d="M555 75 H620 M555 235 H620" stroke="#0b2540" stroke-width="3"/>
+<text x="650" y="82" font-size="19" font-weight="700">u</text><text x="650" y="242" font-size="19" font-weight="700">v</text>
+<path d="M670 78 L735 140 M670 238 L735 170" stroke="#0b2540" stroke-width="3"/>
+<rect x="740" y="90" width="200" height="110" rx="12" fill="#fff4ec" stroke="#c2410c" stroke-width="3"/><text x="840" y="128" text-anchor="middle" font-size="19" font-weight="700">Merge</text><text x="840" y="156" text-anchor="middle" font-size="16">[u+v , |u−v| , u⊙v]</text><text x="840" y="182" text-anchor="middle" font-size="14" fill="#51606f">order-symmetric</text>
+<path d="M945 145 H1000" stroke="#0b2540" stroke-width="3"/><polygon points="1000,136 1018,145 1000,154" fill="#0b2540"/>
+<rect x="1022" y="100" width="125" height="90" rx="12" fill="#0b2540"/><text x="1085" y="140" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">Contact</text><text x="1085" y="164" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">score</text></svg>
+<ul><li><b>Why shared weights:</b> a residue is described the same way whether it is in the ligand or receptor, and the model is invariant to which partner is called ligand.</li>
+<li><b>Why the symmetric merge:</b> sum, absolute difference and product keep the pair score independent of partner order.</li>
+<li><b>Matched baseline:</b> identical model with message passing removed (MLP), so any gain is attributable to graph context.</li></ul>
+<div class="foot"><span>Protein Interface GCN</span><span>5</span></div></section>
+
+<section class="s"><div class="tag">4 · Model</div><h2>The graph-convolution layer</h2>
+<div class="cols"><div>
+<div class="card b"><h3>Paper's node-average operator (Eq. 1)</h3>
+<p style="font-size:24px;margin:8px 0"><code>h<sub>i</sub>′ = ReLU( W<sub>C</sub> h<sub>i</sub> + W<sub>N</sub> · mean<sub>j∈N(i)</sub> h<sub>j</sub> + b )</code></p>
+<p class="sm">h<sub>i</sub>: residue i · N(i): its 20 nearest residues · W<sub>C</sub>, W<sub>N</sub>: separate learned weights for centre and neighbours.</p></div>
+<h3 style="margin-top:18px">Intuition</h3>
+<ul><li>A residue's interface role depends on its <b>surface patch</b>, not just itself.</li>
+<li>Each layer lets information travel one neighbourhood further; two layers see a wider patch.</li></ul></div>
+<div><div class="card"><h3>Our Kaggle GNN (extension)</h3>
+<ul><li>Neighbour messages are <b>weighted by edge features</b> (distance radial-basis + sequence gap): the paper's “node-and-edge” idea.</li>
+<li><b>3 residual layers</b>, width 128, dropout 0.25.</li>
+<li>Pair head: sum / |difference| / product.</li>
+<li>Small auxiliary single-residue interface loss.</li></ul></div>
+<div class="card o" style="margin-top:14px"><h3>Fair baseline</h3><p>MLP: same width, head, features and loss: <b>no neighbour messages</b>.</p></div></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>6</span></div></section>
+
+<section class="s"><div class="tag">5 · Data</div><h2>Dataset and splits (no leakage)</h2>
+<div class="cols"><div>
+<table><tr><th>Partition</th><th>Complexes</th><th>Used for</th></tr>
+<tr><td>Official training</td><td>140</td><td>Learn weights + scaler</td></tr>
+<tr><td>Checkpoint selection</td><td>18</td><td>Pick epoch (mean AP)</td></tr>
+<tr><td>Threshold calibration</td><td>17</td><td>Fix F1 threshold</td></tr>
+<tr class="hl"><td>Official test</td><td>55</td><td>Final numbers, touched once</td></tr></table>
+<p class="sm" style="margin-top:10px">The 18/17 split is a fixed seed-224 split of the 35 official validation complexes.</p></div>
+<div><div class="card"><h3>Test set</h3><p><span class="big" style="font-size:44px">5,224,053</span><br>candidate pairs · <b>4,891 contacts</b> (0.094 %)<br>No negative downsampling at validation or test.</p></div>
+<ul style="margin-top:12px"><li>Docking Benchmark 5 (DB5-Plus release); unbound features, bound labels.</li>
+<li>Median imputation + scaling fitted on training proteins only.</li>
+<li>Features: <b>218 node</b>, <b>17 edge</b> (incl. missing-value flags).</li>
+<li>Archive checksum verified.</li></ul></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>7</span></div></section>
+
+<section class="s"><div class="tag">6 · Training</div><h2>How the models were trained</h2>
+<div class="cols"><div>
+<table><tr><th>Setting</th><th>Value</th></tr>
+<tr><td>Hardware</td><td>Kaggle 2 × Tesla T4, 385.4 s</td></tr>
+<tr><td>Optimiser</td><td>AdamW, lr 3e-4, wd 1e-3</td></tr>
+<tr><td>Regularisation</td><td>dropout 0.25, grad clip 5</td></tr>
+<tr><td>Negatives</td><td>10 per positive, resampled each epoch</td></tr>
+<tr><td>Schedule</td><td>LR drops on validation plateau</td></tr>
+<tr><td>Stopping</td><td>≤150 epochs, patience 20</td></tr>
+<tr><td>Runs</td><td>MLP ×1, GNN ×3 seeds</td></tr></table></div>
+<div><h3>Process</h3>
+<ol style="padding-left:24px"><li>Fit scaler on training proteins.</li><li>Each epoch: sample positives + 10 negatives, balanced loss.</li><li>Score validation complexes with <b>mean per-complex AP</b>; keep best epoch.</li><li>Calibrate F1 threshold on 17 held-back complexes.</li><li>Evaluate once on 55 test complexes.</li><li>Ensemble the 3 GNN seeds (rule declared before testing).</li></ol>
+<div class="card" style="margin-top:12px"><p>Best epochs were 7–10: validation AP peaked early while training loss kept falling: classic overfitting caught by early stopping.</p></div></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>8</span></div></section>
+
+<section class="s"><div class="tag">6 · Training</div><h2>Validation picks the checkpoint, not the loss</h2>
+<img src="img/training_curves.png" style="width:100%;border-radius:8px;border:1px solid #d5dee6">
+<p style="margin-top:12px">Training loss keeps decreasing, but validation average precision stops improving after epoch 7–10, so the saved weights come from those epochs, not the last epoch.</p>
+<div class="foot"><span>Protein Interface GCN</span><span>9</span></div></section>
+
+<section class="s"><div class="tag">7 · Results — paper benchmark</div><h2>Our results agree with the published benchmark</h2>
+<div class="cols"><div>
+<table style="font-size:17px"><tr><th>2 layers · 55 test · 10 seeds</th><th>Our results</th><th>Published (Fout et al.)</th></tr>
+<tr><td>No convolution</td><td>0.846 ± 0.005</td><td>0.810 ± 0.006</td></tr>
+<tr><td>Node average (Eq. 1)</td><td>0.888 ± 0.008</td><td>0.882 ± 0.007</td></tr>
+<tr class="hl"><td>Node + edge average (Eq. 2)</td><td>0.893 ± 0.006</td><td>0.898 ± 0.005</td></tr></table>
+<p class="sm" style="margin-top:6px">Median per-complex ROC AUC, mean ± std over 10 seeds. Published values taken from Table 2 of the NeurIPS paper.</p>
+<ul style="margin-top:10px;font-size:18px"><li>Both graph-convolution variants are <b>within about one std of the paper</b> and clearly above no-convolution.</li>
+<li>Ordering matches the paper: node+edge &gt; node average &gt; no convolution.</li>
+<li>Graph convolution adds +0.04–0.05 AUC over the no-convolution model (paper: +0.07–0.09).</li>
+<li>Node+edge: mean AUC 0.862, median AP 0.0155, P@10 6.1 % (no-conv 4.3 %).</li></ul></div>
+<div><img src="img/replica_auc.png" style="max-height:420px;display:block;margin:auto"></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>10</span></div></section>
+
+<section class="s"><div class="tag">7 · Results — Kaggle run</div><h2>Edge-aware GNN + ensemble on 5.2 M test pairs</h2>
+<table><tr><th>Model</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th><th>AP</th></tr>
+<tr><td>MLP, seed 224</td><td>1.39 %</td><td>9.59 %</td><td>2.43 %</td><td>0.8354</td><td>0.00666</td></tr>
+<tr><td>GNN seed 224</td><td>1.94 %</td><td>10.90 %</td><td>3.29 %</td><td>0.8646</td><td>0.00901</td></tr>
+<tr><td>GNN seed 225</td><td>1.75 %</td><td>15.66 %</td><td>3.15 %</td><td>0.8626</td><td>0.00963</td></tr>
+<tr><td>GNN seed 226</td><td>2.05 %</td><td>7.89 %</td><td>3.25 %</td><td>0.8673</td><td>0.00925</td></tr>
+<tr class="hl"><td>GNN ensemble (3 seeds)</td><td>2.16 %</td><td>11.94 %</td><td>3.66 %</td><td>0.8746</td><td>0.01035</td></tr></table>
+<div class="cols" style="margin-top:18px"><div class="card"><b>Every GNN seed beats the MLP</b> on AUC, AP and F1; the ensemble adds <b>+1.24 pp F1</b> over the MLP. All seeds are reported, none cherry-picked.</div>
+<div class="card o"><b>Precision stays low.</b> Median per-complex AUC 0.877; mean P@10 = 5.3 % (29 contacts in 550 top-10 picks).</div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>11</span></div></section>
+
+<section class="s"><div class="tag">7 · Results — reading the metrics</div><h2>Why AUC is high but F1 is low</h2>
+<img src="img/test_results.png" style="width:100%;border-radius:8px;border:1px solid #d5dee6">
+<div class="cols" style="margin-top:12px"><div><table><tr><th>Confusion (ensemble)</th><th>Count</th></tr><tr><td>True positives</td><td>584</td></tr><tr><td>False positives</td><td>26,409</td></tr><tr><td>False negatives</td><td>4,307</td></tr></table></div>
+<div><ul style="font-size:17px"><li>AUC 0.875 ≠ 87 % precision: with &gt;5 M negatives even a small false-positive rate floods the output.</li>
+<li>Accuracy 99.41 % <i>loses</i> to “predict nothing” (99.91 %): accuracy is the wrong headline.</li></ul></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>12</span></div></section>
+
+<section class="s"><div class="tag">8 · Contribution</div><h2>What we added beyond the paper</h2>
+<div class="cols"><div>
+<div class="card b"><h3>1 · Edge-aware residual GNN</h3><p>Messages weighted by distance RBF and sequence-gap features, with 3 residual layers: a deeper node+edge model than the 2-layer node-average replica.</p></div>
+<div class="card b" style="margin-top:12px"><h3>2 · Three-seed ensemble</h3><p>Equal-weight logit average, declared before test scoring; best F1 and AP of all runs.</p></div>
+<div class="card b" style="margin-top:12px"><h3>3 · Validation-only operating point</h3><p>F1 threshold calibrated on 17 held-back complexes, never on test labels.</p></div></div>
+<div>
+<div class="card" style="margin-bottom:12px"><h3>4 · Full candidate matrix</h3><p>Evaluated on all 5.2 M pairs, not on sampled negatives.</p></div>
+<div class="card"><h3>5 · Independent metric audit</h3><p>4,210 recomputed checks (rank-sum AUC, grouped AP, tie-aware P@10), max discrepancy 2.2 × 10⁻¹⁶.</p></div>
+<div class="card" style="margin-top:12px"><h3>6 · Honest uncertainty</h3><p>Bootstrap CI for F1 <b>2.78 – 4.80 %</b> over 52 sequence-pair groups; prior-exposure and single-seed caveats disclosed.</p></div></div></div>
+<div class="foot"><span>Protein Interface GCN</span><span>13</span></div></section>
+
+<section class="s"><div class="tag">9 · Check against the problem statement</div><h2>Are we doing it the paper's way?</h2>
+<table><tr><th>Requirement (topic row)</th><th>Our project</th><th>Status</th></tr>
+<tr><td>Method: GCN</td><td>Node-average GCN + node-and-edge GCN, as in the paper</td><td class="ok">✔ met</td></tr>
+<tr><td>Learn ligand and receptor residue representations</td><td>Shared-weight encoder applied to each protein</td><td class="ok">✔ met</td></tr>
+<tr><td>Merge for pairwise classification</td><td>[u+v, |u−v|, u⊙v] → contact score</td><td class="ok">✔ met</td></tr>
+<tr><td>Edges = residue interactions</td><td>20-nearest-neighbour residue graph</td><td class="ok">✔ met</td></tr>
+<tr><td>Dataset: “PMC Protein Interfaces 2024”</td><td>DB5 / DB5-Plus (the paper's benchmark)</td><td class="no">⚠ differs</td></tr></table>
+<div class="card o" style="margin-top:18px"><b>Open point to confirm:</b> the topic row lists a “PMC Protein Interfaces 2024” dataset. We used the paper's own Docking Benchmark 5 so results are comparable with the publication. If your instructor requires the PMC set, the same pipeline can be pointed at it.</div>
+<div class="foot"><span>Protein Interface GCN</span><span>14</span></div></section>
+
+<section class="s"><div class="tag">10 · Limits &amp; next steps</div><h2>What the evidence does and does not show</h2>
+<div class="cols"><div><h3>Supported</h3><ul><li>Graph convolution beats the no-convolution model over 10 seeds (0.888 / 0.893 vs 0.846) and matches the paper's published range.</li><li>Kaggle DB5-Plus run agrees: 0.875 vs 0.835 over 3 GNN seeds.</li><li>Pipeline is leakage-controlled and its metrics were independently re-computed.</li></ul></div>
+<div><h3>Not supported</h3><ul><li>Reliable contact prediction: F1 only 3.7 %.</li><li>Reliable top-10 retrieval: P@10 is only 4–6 % (node+edge 6.1 %, no-conv 4.3 %), averaged over seeds.</li><li>A blind holdout: DB5 test structures were seen in earlier experiments; related protein families are not excluded.</li><li>Capacity-matched comparison (MLP has fewer parameters).</li></ul></div></div>
+<div class="card b" style="margin-top:16px"><b>Next steps:</b> parameter-matched baseline · sequence-identity-aware splits · geometric / attention encoders (DeepInteract) · calibrated probabilities · external holdout.</div>
+<div class="foot"><span>Protein Interface GCN</span><span>15</span></div></section>
+
+<section class="s"><div class="tag">References</div><h2>Sources</h2>
+<ul style="font-size:19px"><li>Fout, Byrd, Shariat, Ben-Hur. <i>Protein Interface Prediction using Graph Convolutional Networks.</i> NeurIPS 2017. Code: github.com/fouticus/pipgcn · Data: zenodo.org/records/1127774</li>
+<li>Morehead et al. <i>Geometric Transformers for Protein Interface Contact Prediction</i> (DeepInteract). ICLR 2022. github.com/BioinfoMachineLearning/DeepInteract</li>
+<li>Morehead et al. <i>DIPS-Plus.</i> Scientific Data 2023. github.com/BioinfoMachineLearning/DIPS-Plus</li>
+<li>Stanford CS224W: Machine Learning with Graphs (GNN background).</li>
+<li>Kaggle notebook: “Protein Interface GNN – Validated GPU Training” (T4 ×2, 385.4 s, 21 Oct 2026).</li></ul>
+<div class="card" style="margin-top:22px"><p>Full code, models, per-complex metrics, audit and report are in the submission ZIP.</p></div>
+<div class="foot"><span>Protein Interface GCN</span><span>16</span></div></section>
+</body></html>

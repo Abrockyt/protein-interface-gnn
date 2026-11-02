@@ -1,0 +1,122 @@
+[
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:313:C",
+    "score": 0.8714819550514221,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:313:C",
+    "score": 0.8712999820709229,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:2313:C",
+    "score": 0.8712281584739685,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:2313:C",
+    "score": 0.8710421323776245,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:1313:C",
+    "score": 0.8692198395729065,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:1313:C",
+    "score": 0.8689931631088257,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:1028:T",
+    "score": 0.8672501444816589,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:2290:Q",
+    "score": 0.867174506187439,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:28:T",
+    "score": 0.8669798374176025,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:1028:T",
+    "score": 0.866577684879303,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:2290:Q",
+    "score": 0.866473376750946,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:2289:C",
+    "score": 0.8664374351501465,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:1311:G",
+    "score": 0.8663326501846313,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:28:T",
+    "score": 0.8663040995597839,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:2028:T",
+    "score": 0.8662292957305908,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:1290:Q",
+    "score": 0.8662058711051941,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:2289:C",
+    "score": 0.8661854863166809,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:1290:Q",
+    "score": 0.8657529950141907,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:100:Y",
+    "chain_b": "B:1311:G",
+    "score": 0.8656661510467529,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:101:D",
+    "chain_b": "B:2028:T",
+    "score": 0.8655441403388977,
+    "actual_contact": false
+  }
+]

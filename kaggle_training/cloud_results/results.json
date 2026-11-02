@@ -1,0 +1,197 @@
+{
+  "models": {
+    "mlp_224": {
+      "n_pairs": 5224053,
+      "positives": 4891,
+      "prevalence": 0.0009362462440560997,
+      "roc_auc": 0.8354312858288903,
+      "average_precision": 0.0066563030037125725,
+      "trapezoid_pr_auc": 0.006637271039546417,
+      "precision": 0.013897943459965626,
+      "recall": 0.0958904109589041,
+      "f1": 0.02427724719828144,
+      "mcc": 0.034173137518230076,
+      "accuracy": 0.9927835724484418,
+      "balanced_accuracy": 0.5447572415879308,
+      "specificity": 0.9936240722169575,
+      "tp": 469,
+      "fp": 33277,
+      "fn": 4422,
+      "tn": 5185885,
+      "threshold": 2.4748892784118652,
+      "calibration_f1": 0.047492625368731556,
+      "calibration_pairs": 658856,
+      "median_complex_roc_auc": 0.8363354618986802,
+      "macro_average_precision": 0.018302879046700665,
+      "macro_f1": 0.029911010334032737,
+      "mean_precision_at_10": 0.052727272727272734,
+      "pooled_f1_complex_bootstrap_95ci": [
+        0.018107864580368043,
+        0.032991725157647124
+      ],
+      "bootstrap_sequence_pair_groups": 52
+    },
+    "gnn_224": {
+      "n_pairs": 5224053,
+      "positives": 4891,
+      "prevalence": 0.0009362462440560997,
+      "roc_auc": 0.8646033328424397,
+      "average_precision": 0.009010775497246408,
+      "trapezoid_pr_auc": 0.008983340507899921,
+      "precision": 0.019356478791400348,
+      "recall": 0.10897566959721938,
+      "f1": 0.03287383970148333,
+      "mcc": 0.043842742547293125,
+      "accuracy": 0.9939968066939596,
+      "balanced_accuracy": 0.5519009252525944,
+      "specificity": 0.9948261809079695,
+      "tp": 533,
+      "fp": 27003,
+      "fn": 4358,
+      "tn": 5192159,
+      "threshold": 2.9265871047973633,
+      "calibration_f1": 0.06802973977695168,
+      "calibration_pairs": 658856,
+      "median_complex_roc_auc": 0.8732239530132788,
+      "macro_average_precision": 0.023887104043409983,
+      "macro_f1": 0.030344238830393677,
+      "mean_precision_at_10": 0.038181818181818185,
+      "pooled_f1_complex_bootstrap_95ci": [
+        0.025074280416937236,
+        0.04372940425771924
+      ],
+      "bootstrap_sequence_pair_groups": 52
+    },
+    "gnn_225": {
+      "n_pairs": 5224053,
+      "positives": 4891,
+      "prevalence": 0.0009362462440560997,
+      "roc_auc": 0.8625995093372587,
+      "average_precision": 0.009633105752735991,
+      "trapezoid_pr_auc": 0.009600070118370795,
+      "precision": 0.017495774519208807,
+      "recall": 0.15661418932733592,
+      "f1": 0.031475355946828834,
+      "mcc": 0.049776903152467675,
+      "accuracy": 0.9909761635266717,
+      "balanced_accuracy": 0.5741861265848844,
+      "specificity": 0.9917580638424329,
+      "tp": 766,
+      "fp": 43016,
+      "fn": 4125,
+      "tn": 5176146,
+      "threshold": 2.2106287479400635,
+      "calibration_f1": 0.06510597035600499,
+      "calibration_pairs": 658856,
+      "median_complex_roc_auc": 0.8566979047949654,
+      "macro_average_precision": 0.023181307553165463,
+      "macro_f1": 0.031531731399265926,
+      "mean_precision_at_10": 0.045454545454545456,
+      "pooled_f1_complex_bootstrap_95ci": [
+        0.024024592918755857,
+        0.041179451889947934
+      ],
+      "bootstrap_sequence_pair_groups": 52
+    },
+    "gnn_226": {
+      "n_pairs": 5224053,
+      "positives": 4891,
+      "prevalence": 0.0009362462440560997,
+      "roc_auc": 0.8673426226127634,
+      "average_precision": 0.009250432186613897,
+      "trapezoid_pr_auc": 0.009205099305581986,
+      "precision": 0.02046876657121646,
+      "recall": 0.07892046616233898,
+      "f1": 0.032506631858183505,
+      "mcc": 0.038441112955704335,
+      "accuracy": 0.9956016908710535,
+      "balanced_accuracy": 0.5376906003316975,
+      "specificity": 0.9964607345010559,
+      "tp": 386,
+      "fp": 18472,
+      "fn": 4505,
+      "tn": 5200690,
+      "threshold": 2.8162879943847656,
+      "calibration_f1": 0.06535947712418301,
+      "calibration_pairs": 658856,
+      "median_complex_roc_auc": 0.8621411126670824,
+      "macro_average_precision": 0.025227157420757068,
+      "macro_f1": 0.030635948542751982,
+      "mean_precision_at_10": 0.05090909090909091,
+      "pooled_f1_complex_bootstrap_95ci": [
+        0.023945813971364544,
+        0.04356686242580175
+      ],
+      "bootstrap_sequence_pair_groups": 52
+    },
+    "gnn_ensemble": {
+      "n_pairs": 5224053,
+      "positives": 4891,
+      "prevalence": 0.0009362462440560997,
+      "roc_auc": 0.8746134338873931,
+      "average_precision": 0.010352070747066558,
+      "trapezoid_pr_auc": 0.01030475011160352,
+      "precision": 0.0216352387656059,
+      "recall": 0.11940298507462686,
+      "f1": 0.03663279387780705,
+      "mcc": 0.04877578569686048,
+      "accuracy": 0.9941202740477556,
+      "balanced_accuracy": 0.5571714886784563,
+      "specificity": 0.9949399922822859,
+      "tp": 584,
+      "fp": 26409,
+      "fn": 4307,
+      "tn": 5192753,
+      "threshold": 2.554675340652466,
+      "calibration_f1": 0.07359050445103858,
+      "calibration_pairs": 658856,
+      "median_complex_roc_auc": 0.8773405534884137,
+      "macro_average_precision": 0.02722347762650488,
+      "macro_f1": 0.03180482531360984,
+      "mean_precision_at_10": 0.05272727272727273,
+      "pooled_f1_complex_bootstrap_95ci": [
+        0.027829856040555382,
+        0.04804903378876163
+      ],
+      "bootstrap_sequence_pair_groups": 52
+    }
+  },
+  "selected_checkpoints": {
+    "mlp_224": {
+      "epoch": 7,
+      "selection_macro_ap": 0.027277046143741972
+    },
+    "gnn_224": {
+      "epoch": 7,
+      "selection_macro_ap": 0.04455846972481339
+    },
+    "gnn_225": {
+      "epoch": 7,
+      "selection_macro_ap": 0.045942570445580096
+    },
+    "gnn_226": {
+      "epoch": 10,
+      "selection_macro_ap": 0.040063450243498694
+    }
+  },
+  "runtime": {
+    "platform": "Linux-6.18.48+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "gpu": "Tesla T4"
+  },
+  "protocol": {
+    "training_complexes": 140,
+    "selection_complexes": 18,
+    "threshold_calibration_complexes": 17,
+    "test_complexes": 55,
+    "max_epochs": 150,
+    "early_stopping_patience": 20,
+    "checkpoint_metric": "mean per-complex validation average precision",
+    "threshold": "pooled F1 maximum on 17 calibration complexes only",
+    "heldout_distribution": "Every CA residue pair, with no negative downsampling",
+    "main_output": "Pair contact prediction, not auxiliary single-residue interface classification",
+    "prior_test_exposure": "Underlying DB5 test complexes were examined in earlier project experiments. This is a fixed benchmark rerun, not a new blind holdout.",
+    "uncertainty": "Bootstrap resamples exact sequence-pair groups, conditional on fitted models and threshold; 3 GNN seeds report training variation. Homology dependencies are not removed."
+  }
+}

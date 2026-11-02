@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "checks": 4210,
+  "maximum_absolute_metric_error": 2.220446049250313e-16,
+  "method": "Independent confusion arithmetic, Mann-Whitney rank AUC and tied-threshold AP; per-complex arrays and pooled results verified against exported summaries.",
+  "scope": "Does not establish a fresh blind test, homology-disjointness, or retrain checkpoints."
+}

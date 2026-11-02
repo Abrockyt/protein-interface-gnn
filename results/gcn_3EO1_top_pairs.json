@@ -1,0 +1,122 @@
+[
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:590:Y",
+    "score": 0.7704177498817444,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:90:Y",
+    "score": 0.7700090408325195,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:534:H",
+    "score": 0.7607440948486328,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:34:H",
+    "score": 0.7587531805038452,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:524:F",
+    "score": 0.7567937970161438,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:24:F",
+    "score": 0.7564162015914917,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:38:G",
+    "score": 0.7561556696891785,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:533:V",
+    "score": 0.755753219127655,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:539:Y",
+    "score": 0.7543307542800903,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:35:E",
+    "score": 0.7538841366767883,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:535:E",
+    "score": 0.7537323236465454,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:33:V",
+    "score": 0.7536494135856628,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:591:Y",
+    "score": 0.7536414861679077,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:538:G",
+    "score": 0.7534127831459045,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:91:Y",
+    "score": 0.7533209919929504,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:537:K",
+    "score": 0.7532182931900024,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:11:L",
+    "score": 0.7529468536376953,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:511:L",
+    "score": 0.7526777386665344,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:10:N",
+    "score": 0.7520784735679626,
+    "actual_contact": false
+  },
+  {
+    "chain_a": "A:58:G",
+    "chain_b": "B:510:N",
+    "score": 0.751814603805542,
+    "actual_contact": false
+  }
+]

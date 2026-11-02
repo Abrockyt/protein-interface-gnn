@@ -1,0 +1,275 @@
+{
+  "seed": 224,
+  "train_ids": [
+    "3A4S",
+    "3V6Z",
+    "4JCV",
+    "3HMX",
+    "3P57",
+    "4HX3",
+    "3EOA",
+    "3L89",
+    "4DN4",
+    "4M76",
+    "3VLB",
+    "2VXT",
+    "1EXB",
+    "2YVJ",
+    "3G6D",
+    "4H03"
+  ],
+  "validation_ids": [
+    "4G6M",
+    "1M27",
+    "3PC8",
+    "3F1P"
+  ],
+  "test_ids": [
+    "3MXW",
+    "3EO1",
+    "3AAD",
+    "4GXU"
+  ],
+  "contact_cutoff_angstrom": 5.0,
+  "graph_cutoff_angstrom": 10.0,
+  "models": {
+    "MLP": {
+      "best_epoch": 5,
+      "validation_ap": 0.00971425485623012,
+      "threshold": 0.44999999999999996,
+      "validation": {
+        "pairs": 86558,
+        "contacts": 148,
+        "prevalence": 0.0017098361792093164,
+        "average_precision": 0.00971425485623012,
+        "roc_auc": 0.761859785372689,
+        "precision": 0.016986706056129987,
+        "recall": 0.1554054054054054,
+        "f1": 0.03062583222370173,
+        "precision_at_k": 0.033783783783783786
+      },
+      "validation_per_complex": {
+        "4G6M": {
+          "pairs": 64368,
+          "contacts": 58,
+          "prevalence": 0.0009010688540889883,
+          "average_precision": 0.0042193586047841545,
+          "roc_auc": 0.8127598539402356,
+          "precision": 0.005390835579514825,
+          "recall": 0.034482758620689655,
+          "f1": 0.009324009324009324,
+          "precision_at_k": 0.0
+        },
+        "1M27": {
+          "pairs": 6210,
+          "contacts": 19,
+          "prevalence": 0.0030595813204508855,
+          "average_precision": 0.029509256521462062,
+          "roc_auc": 0.7892101437570668,
+          "precision": 0.025,
+          "recall": 0.2631578947368421,
+          "f1": 0.045662100456621,
+          "precision_at_k": 0.05263157894736842
+        },
+        "3PC8": {
+          "pairs": 6278,
+          "contacts": 28,
+          "prevalence": 0.004460019114367633,
+          "average_precision": 0.014652606388031685,
+          "roc_auc": 0.6709628571428572,
+          "precision": 0.0182370820668693,
+          "recall": 0.21428571428571427,
+          "f1": 0.03361344537815126,
+          "precision_at_k": 0.03571428571428571
+        },
+        "3F1P": {
+          "pairs": 9702,
+          "contacts": 43,
+          "prevalence": 0.004432075860647289,
+          "average_precision": 0.014131369578071373,
+          "roc_auc": 0.5816445440690331,
+          "precision": 0.022026431718061675,
+          "recall": 0.23255813953488372,
+          "f1": 0.04024144869215292,
+          "precision_at_k": 0.023255813953488372
+        }
+      },
+      "test": {
+        "pairs": 797291,
+        "contacts": 210,
+        "prevalence": 0.0002633919108581434,
+        "average_precision": 0.001264042163720857,
+        "roc_auc": 0.7714624748957521,
+        "precision": 0.0022915340547422025,
+        "recall": 0.08571428571428572,
+        "f1": 0.004463732176069436,
+        "precision_at_k": 0.009523809523809525
+      },
+      "test_per_complex": {
+        "3MXW": {
+          "pairs": 63176,
+          "contacts": 64,
+          "prevalence": 0.0010130429276940611,
+          "average_precision": 0.00813614845818211,
+          "roc_auc": 0.8731382304474584,
+          "precision": 0.011834319526627219,
+          "recall": 0.125,
+          "f1": 0.021621621621621623,
+          "precision_at_k": 0.03125
+        },
+        "3EO1": {
+          "pairs": 92736,
+          "contacts": 49,
+          "prevalence": 0.0005283816425120773,
+          "average_precision": 0.0007118305806247394,
+          "roc_auc": 0.5757027767141684,
+          "precision": 0.0014738393515106854,
+          "recall": 0.04081632653061224,
+          "f1": 0.002844950213371266,
+          "precision_at_k": 0.0
+        },
+        "3AAD": {
+          "pairs": 39015,
+          "contacts": 39,
+          "prevalence": 0.0009996155324875047,
+          "average_precision": 0.002317052881064878,
+          "roc_auc": 0.7375469059197508,
+          "precision": 0.001718213058419244,
+          "recall": 0.05128205128205128,
+          "f1": 0.0033250207813798837,
+          "precision_at_k": 0.0
+        },
+        "4GXU": {
+          "pairs": 602364,
+          "contacts": 58,
+          "prevalence": 9.62872947254484e-05,
+          "average_precision": 0.0009207036292390052,
+          "roc_auc": 0.7830517927821543,
+          "precision": 0.0012881064834693002,
+          "recall": 0.10344827586206896,
+          "f1": 0.002544529262086514,
+          "precision_at_k": 0.017241379310344827
+        }
+      }
+    },
+    "GCN": {
+      "best_epoch": 18,
+      "validation_ap": 0.007394337605721298,
+      "threshold": 0.7999999999999999,
+      "validation": {
+        "pairs": 86558,
+        "contacts": 148,
+        "prevalence": 0.0017098361792093164,
+        "average_precision": 0.007394337605721298,
+        "roc_auc": 0.8273939530897637,
+        "precision": 0.01867219917012448,
+        "recall": 0.060810810810810814,
+        "f1": 0.02857142857142857,
+        "precision_at_k": 0.02702702702702703
+      },
+      "validation_per_complex": {
+        "4G6M": {
+          "pairs": 64368,
+          "contacts": 58,
+          "prevalence": 0.0009010688540889883,
+          "average_precision": 0.012522730698268873,
+          "roc_auc": 0.9436190006380731,
+          "precision": 0.02158273381294964,
+          "recall": 0.15517241379310345,
+          "f1": 0.037894736842105266,
+          "precision_at_k": 0.017241379310344827
+        },
+        "1M27": {
+          "pairs": 6210,
+          "contacts": 19,
+          "prevalence": 0.0030595813204508855,
+          "average_precision": 0.006589555091504989,
+          "roc_auc": 0.7714254138010184,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "precision_at_k": 0.0
+        },
+        "3PC8": {
+          "pairs": 6278,
+          "contacts": 28,
+          "prevalence": 0.004460019114367633,
+          "average_precision": 0.014034164886050627,
+          "roc_auc": 0.8161657142857143,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "precision_at_k": 0.0
+        },
+        "3F1P": {
+          "pairs": 9702,
+          "contacts": 43,
+          "prevalence": 0.004432075860647289,
+          "average_precision": 0.0030488613362279187,
+          "roc_auc": 0.3308169029005362,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "precision_at_k": 0.0
+        }
+      },
+      "test": {
+        "pairs": 797291,
+        "contacts": 210,
+        "prevalence": 0.0002633919108581434,
+        "average_precision": 0.002544309234303744,
+        "roc_auc": 0.8463478976056744,
+        "precision": 0.004531448250860975,
+        "recall": 0.11904761904761904,
+        "f1": 0.008730574471800244,
+        "precision_at_k": 0.0
+      },
+      "test_per_complex": {
+        "3MXW": {
+          "pairs": 63176,
+          "contacts": 64,
+          "prevalence": 0.0010130429276940611,
+          "average_precision": 0.02751095049464421,
+          "roc_auc": 0.9770970160191406,
+          "precision": 0.022222222222222223,
+          "recall": 0.078125,
+          "f1": 0.03460207612456748,
+          "precision_at_k": 0.0
+        },
+        "3EO1": {
+          "pairs": 92736,
+          "contacts": 49,
+          "prevalence": 0.0005283816425120773,
+          "average_precision": 0.0020930067158610273,
+          "roc_auc": 0.7908404916877364,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "precision_at_k": 0.0
+        },
+        "3AAD": {
+          "pairs": 39015,
+          "contacts": 39,
+          "prevalence": 0.0009996155324875047,
+          "average_precision": 0.001119356497748233,
+          "roc_auc": 0.565415008841733,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "precision_at_k": 0.0
+        },
+        "4GXU": {
+          "pairs": 602364,
+          "contacts": 58,
+          "prevalence": 9.62872947254484e-05,
+          "average_precision": 0.001880647465619977,
+          "roc_auc": 0.9264895796465927,
+          "precision": 0.003779289493575208,
+          "recall": 0.3448275862068966,
+          "f1": 0.007476635514018692,
+          "precision_at_k": 0.0
+        }
+      }
+    }
+  }
+}

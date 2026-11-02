@@ -1,0 +1,17 @@
+{
+  "kaggle_url": "https://www.kaggle.com/code/malleabhinay/protein-interface-gnn-validated-gpu-training?scriptVersionId=360528046",
+  "version": 1,
+  "script_version_id": 360528046,
+  "accelerator": "GPU T4 x2",
+  "privacy": "Private",
+  "status": "completed successfully on Kaggle; outputs downloaded",
+  "source_sha256": {
+    "train.py": "dc051968fff606c0232a855d183597f621ad82c8b3b0e42a9fb7e94bdccf2b51",
+    "build_notebook.py": "107727307bd0c6d0f8f1e87590feb4ea77dfbf38ae48cb250579d3e0d44da555",
+    "Protein_Interface_GNN_Kaggle.ipynb": "95697fcdb3605a2a0955c76c82c0a7a2ed93211fa3f5391cdd3ea7c85bb5916c"
+  },
+  "local_preflight": "seed 999, one epoch; not part of final experiment",
+  "runtime_seconds": 385.4,
+  "results_zip_sha256": "95aa043f299898776c38b363a85e938d928de58fac8a9e76ae6972653ddec772",
+  "output_files": 300
+}

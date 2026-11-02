@@ -1,0 +1,58 @@
+{
+  "all_test": {
+    "n": 55,
+    "median_auc_mlp": 0.8431901091410294,
+    "median_auc_gcn": 0.8913108798832894,
+    "median_auc_difference_ci95_bootstrap": [
+      0.014843768633367671,
+      0.0654558486535635
+    ],
+    "gcn_better_auc_count": 42,
+    "median_ap_mlp": 0.012736692253651167,
+    "median_ap_gcn": 0.018245997841077
+  },
+  "previously_unexplored_test_subset": {
+    "n": 31,
+    "ids": [
+      "3R9A",
+      "4GAM",
+      "3AAA",
+      "2GAF",
+      "2GTP",
+      "3RVW",
+      "3SZK",
+      "4IZ7",
+      "3BX7",
+      "4FQI",
+      "4G6J",
+      "3BIW",
+      "3HI6",
+      "2X9A",
+      "2W9E",
+      "3LVK",
+      "1JTD",
+      "3H2V",
+      "BP57",
+      "3L5W",
+      "CP57",
+      "3DAW",
+      "3K75",
+      "BAAD",
+      "4FZA",
+      "4LW4",
+      "1RKE",
+      "3FN1",
+      "3S9D",
+      "3H11",
+      "2A1A"
+    ],
+    "median_auc_mlp": 0.8185561062411874,
+    "median_auc_gcn": 0.8528841216731808,
+    "median_auc_difference_ci95_bootstrap": [
+      -0.01976234516278197,
+      0.06575074427284344
+    ],
+    "gcn_better_auc_count": 21
+  },
+  "warning": "The earlier exploratory experiment used the remaining test IDs; the subset is a disclosure analysis, not a newly designed benchmark."
+}
